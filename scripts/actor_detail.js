@@ -1,27 +1,4 @@
-async function fetchJSON(path) {
-  const res = await fetch(path);
-  if (!res.ok) throw new Error(`Cannot load ${path}: ${res.status}`);
-  return res.json();
-}
-
-function escapeHTML(str = "") {
-  return str
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-function formatDate(dateStr) {
-  if (!dateStr) return "Chưa cập nhật";
-  return dateStr; // bạn có thể format dd/mm/yyyy nếu muốn
-}
-
-function getQueryParam(name) {
-  const url = new URL(window.location.href);
-  return url.searchParams.get(name);
-}
+import {fetchJSON, escapeHTML, getQueryParam, formatDate} from "/utils/utils.js"
 
 function renderActor(actor) {
   const hero = document.getElementById("actor-hero");
