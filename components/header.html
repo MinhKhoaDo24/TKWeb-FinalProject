@@ -53,11 +53,91 @@
             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-500 group-hover:text-white transition-colors"></i>
         </div>  
 
-            <button class="w-10 h-10 rounded-xl bg-[#2a2a2a] flex items-center justify-center text-gray-400 hover:text-white hover:bg-purple-600 transition-all relative">
-                <i class="fa-regular fa-bell"></i>
-                <span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-[#1e1e1e]"></span>
-            </button>
+            <div class="relative">
+                <!-- Bell button -->
+                <button id="notifyBtn"
+                    class="w-10 h-10 rounded-xl bg-[#2a2a2a] flex items-center justify-center text-gray-400 hover:text-white hover:bg-purple-600 transition-all relative">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-[#1e1e1e]"></span>
+                </button>
 
+                <div id="notifyDropdown"
+                    class="absolute right-0 mt-3 w-80 bg-[#1e1e1e] border border-white/10 rounded-2xl shadow-xl hidden z-50">
+                
+                    <!-- Header -->
+                    <div class="px-4 py-3 border-b border-white/10 font-semibold">
+                        Thông báo
+                    </div>
+                
+                    <!-- List -->
+                    <ul class="max-h-72 overflow-y-auto">
+                        <li class="group px-4 py-3 cursor-pointer transition-all rounded-lg hover:bg-purple-600/10">
+                            <div class="flex items-start gap-3">
+                                <!-- Icon -->
+                                <div
+                                    class="w-9 h-9 rounded-full bg-purple-600/20 text-purple-400 flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition">
+                                    <i class="fa-solid fa-film text-sm"></i>
+                                </div>
+                        
+                                <!-- Content -->
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-white group-hover:text-purple-400 transition">
+                                        Phim mới đã được cập nhật
+                                    </p>
+                                    <span class="text-xs text-gray-400 group-hover:text-purple-300 transition">
+                                        5 phút trước
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="group px-4 py-3 cursor-pointer transition-all rounded-lg hover:bg-purple-600/10">
+                            <div class="flex items-start gap-3">
+                                <div
+                                    class="w-9 h-9 rounded-full bg-purple-600/20 text-purple-400 flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition">
+                                    <i class="fa-solid fa-crown text-sm"></i>
+                                </div>
+                        
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-white group-hover:text-purple-400 transition">
+                                        Gói Cao cấp của bạn sắp hết hạn
+                                    </p>
+                                    <span class="text-xs text-gray-400 group-hover:text-purple-300 transition">
+                                        1 giờ trước
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="group px-4 py-3 cursor-pointer transition-all rounded-lg hover:bg-purple-600/10">
+                            <div class="flex items-start gap-3">
+                                <div
+                                    class="w-9 h-9 rounded-full bg-purple-600/20 text-purple-400 flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition">
+                                    <i class="fa-solid fa-hand-sparkles text-sm"></i>
+                                </div>
+                        
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-white group-hover:text-purple-400 transition">
+                                        Chào mừng bạn đến với AuraFilm
+                                    </p>
+                                    <span class="text-xs text-gray-400 group-hover:text-purple-300 transition">
+                                        29 ngày trước
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                
+                    <!-- Footer -->
+                    <div class="px-4 py-3 border-t border-white/10 text-center">
+                        <a href="#" class="text-sm text-primary hover:underline">
+                            Xem tất cả
+                        </a>
+                    </div>
+                </div>
+            </div>
+                
             <div class="pl-4 border-l border-white/10" id="auth-container">
                 <div id="guest-action-container" class="relative">
                     <button id="btn-member-menu" class="text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-lg shadow-purple-500/40 flex items-center gap-2 hover:brightness-110 active:scale-95" style="background-image: linear-gradient(135deg, #8b5cf6, #d946ef);">
@@ -96,4 +176,19 @@
         </div>
     </header>
     
+    <script>
+        const notifyBtn = document.getElementById("notifyBtn");
+        const notifyDropdown = document.getElementById("notifyDropdown");
+
+        notifyBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            notifyDropdown.classList.toggle("hidden");
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!notifyDropdown.contains(e.target)) {
+                notifyDropdown.classList.add("hidden");
+            }
+        });
+    </script>
     
