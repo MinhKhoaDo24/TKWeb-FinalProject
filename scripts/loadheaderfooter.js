@@ -56,30 +56,53 @@ $(document).ready(function () {
     // ==========================================
     
     $("#sidebar-container").load("components/sidebar.html", function(response, status, xhr) {
-        if (status == "error") return;
-        
-        const path = window.location.pathname;
-        const isAuthPage = path.includes('login') || path.includes('register');
+    if (status == "error") return;
+    
+    const path = window.location.pathname;
+    const fullUrl = window.location.href;
+    const isAuthPage = path.includes('login') || path.includes('register');
 
-        if (!isAuthPage && $(window).width() >= 1280) {
-            setSidebarState("mini");
-        } else {
-            $("#sidebar-container").removeClass("mini-sidebar").css("width", "");
-            $("main").css("padding-left", "");
+    // SỬA LỖI: Trả về kích thước chuẩn (88px/280px) để không bị lỗi sidebar đè
+    if (!isAuthPage && $(window).width() >= 1280) {
+        setSidebarState("mini");
+    } else {
+        $("#sidebar-container").removeClass("mini-sidebar").css("width", "");
+        $("main").css("padding-left", "");
+    }
+
+    // Xử lý link và TỰ ĐỘNG TÔ MÀU TÍM (Active State)
+    $('#sidebar-content a').each(function() {
+        const $link = $(this);
+        const text = $link.text().trim();
+
+        // 1. Gán href động cho các mục đặc biệt
+        if(text === 'Trending') $link.attr('href', 'movie_list.html?type=trending');
+        if(text === 'Đang Chiếu') $link.attr('href', 'movie_list.html?type=now-showing');
+        if(text === 'Sắp Chiếu') $link.attr('href', 'movie_list.html?type=coming-soon');
+        
+        // 2. Logic tô màu tím Gradient
+        const linkHref = $link.attr('href');
+        
+        // Xóa class active cứng trong HTML nếu có để JS tự quản lý
+        $link.removeClass('active nav-active');
+
+        if (linkHref && linkHref !== "#") {
+            // Kiểm tra nếu URL trình duyệt khớp với link của mục menu
+            if (fullUrl.includes(linkHref)) {
+                $link.addClass('nav-active').removeClass('text-gray-400');
+            } 
+            // Đặc biệt cho trang chủ
+            else if ((path === "/" || path.includes("index.html")) && linkHref.includes("index.html")) {
+                $link.addClass('nav-active').removeClass('text-gray-400');
+            }
         }
 
-        // Cập nhật link cho các mục Menu cố định trong Sidebar
-        $('#sidebar-content a').each(function() {
-            const text = $(this).text().trim();
-            if(text === 'Trending') $(this).attr('href', 'movie_list.html?type=trending');
-            if(text === 'Đang Chiếu') $(this).attr('href', 'movie_list.html?type=now-showing');
-            if(text === 'Sắp Chiếu') $(this).attr('href', 'movie_list.html?type=coming-soon');
-            
-            if(isAuthPage && text.includes('Đăng Nhập')) {
-                $(this).addClass('text-red-500 bg-white/10');
-            }
-        });
+        // Highlight riêng cho Đăng Nhập nếu đang ở trang Auth
+        if(isAuthPage && text.includes('Đăng Nhập')) {
+            $link.addClass('text-red-500 bg-white/10');
+        }
     });
+});
 
     $("#navbar-container").load("components/header.html", function() {
         if (typeof window.checkLoginStatus === 'function') {
