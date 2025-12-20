@@ -7,7 +7,7 @@ $(document).ready(function () {
     let globalMoviesData = [];
     let heroSliderInterval;
 
-    // Kích thước Sidebar chuẩn
+    // Kích thước Sidebar chuẩn (Đã sửa từ 10px/20px thành 88px/280px)
     const SIDEBAR_WIDTH_MINI = "10px"; 
     const SIDEBAR_WIDTH_FULL = "20px"; 
 
@@ -15,29 +15,24 @@ $(document).ready(function () {
     // 2. LOGIC YÊU THÍCH & KIỂM TRA ĐĂNG NHẬP
     // ==========================================
     
-    // Kiểm tra phim đã thích chưa
     window.isFavorite = (id) => {
         const favs = JSON.parse(localStorage.getItem('favorites')) || [];
         return favs.includes(id);
     };
 
-    // Xử lý khi bấm vào trái tim (Toggle)
     window.toggleFavorite = (e, id) => {
         e.preventDefault(); 
         e.stopPropagation(); 
         
-        // GỌI HÀM KIỂM TRA TỪ login_register.js
         if (typeof window.requireLogin === 'function') {
             if (!window.requireLogin()) return;
         } else {
-             // Fallback nếu file kia chưa load kịp
              if (localStorage.getItem("isLoggedIn") !== "true") {
                 alert("Vui lòng đăng nhập để sử dụng tính năng này!");
                 return;
              }
         }
 
-        // Logic thêm/xóa tim
         let favs = JSON.parse(localStorage.getItem('favorites')) || [];
         const btn = $(e.currentTarget);
         const icon = btn.find('i');
@@ -60,99 +55,83 @@ $(document).ready(function () {
     // 3. LOAD GIAO DIỆN (HEADER / FOOTER / SIDEBAR)
     // ==========================================
     
-    // --- SIDEBAR ---
     $("#sidebar-container").load("components/sidebar.html", function(response, status, xhr) {
         if (status == "error") return;
         
         const path = window.location.pathname;
         const isAuthPage = path.includes('login') || path.includes('register');
 
-        // Logic mặc định cho PC
         if (!isAuthPage && $(window).width() >= 1280) {
-            setSidebarState("mini"); // Mặc định thu nhỏ
+            setSidebarState("mini");
         } else {
             $("#sidebar-container").removeClass("mini-sidebar").css("width", "");
             $("main").css("padding-left", "");
         }
-        
-        // Highlight menu hiện tại
-        if(isAuthPage) {
-            $('#sidebar-content a').each(function() {
-                if($(this).text().trim().includes('Đăng Nhập')) {
-                    $(this).addClass('text-red-500 bg-white/10');
-                }
+
+        // Cập nhật link cho các mục Menu cố định trong Sidebar
+        $('#sidebar-content a').each(function() {
+            const text = $(this).text().trim();
+            if(text === 'Trending') $(this).attr('href', 'movie_list.html?type=trending');
+            if(text === 'Đang Chiếu') $(this).attr('href', 'movie_list.html?type=now-showing');
+            if(text === 'Sắp Chiếu') $(this).attr('href', 'movie_list.html?type=coming-soon');
+            
+            if(isAuthPage && text.includes('Đăng Nhập')) {
+                $(this).addClass('text-red-500 bg-white/10');
+            }
+        });
+    });
+
+    $("#navbar-container").load("components/header.html", function() {
+        if (typeof window.checkLoginStatus === 'function') {
+            window.checkLoginStatus();
+        }
+        if (globalMoviesData.length > 0) {
+            populateGenres(globalMoviesData);
+            populateCountries(globalMoviesData);
+        }
+
+        const userProfile = document.getElementById("user-profile");
+        const logoutBtn = document.getElementById("btn-logout");
+
+        if (userProfile) {
+            userProfile.addEventListener("click", (e) => {
+                if (logoutBtn && logoutBtn.contains(e.target)) return;
+                const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+                window.location.href = isLoggedIn ? "profile.html" : "login.html";
             });
         }
     });
-        // Header
-        $("#navbar-container").load("components/header.html", function() {
-            // GỌI HÀM CẬP NHẬT UI HEADER TỪ AUTH.JS
-            if (typeof window.checkLoginStatus === 'function') {
-                window.checkLoginStatus();
-            }
-            // CLICK AVATAR HOẶC TÊN → PROFILE
-            const userProfile = document.getElementById("user-profile");
-            const logoutBtn = document.getElementById("btn-logout");
 
-            if (userProfile) {
-                userProfile.addEventListener("click", (e) => {
-                    // Nếu click vào nút logout thì KHÔNG redirect
-                    if (logoutBtn && logoutBtn.contains(e.target)) return;
-
-                    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-
-                    if (isLoggedIn) {
-                        window.location.href = "profile.html";
-                    } else {
-                        window.location.href = "login.html";
-                    }
-                });
-            }
-
-    // --- FOOTER ---
     $("#footer-container").load("components/footer.html");
-
 
     // ==========================================
     // 4. XỬ LÝ SỰ KIỆN GIAO DIỆN
     // ==========================================
     
-    // [ĐÃ SỬA] Hàm set trạng thái Sidebar + XOAY ICON
     function setSidebarState(state) {
         const sidebar = $("#sidebar-container");
         const content = $("main"); 
-        
-        // Tìm icon trong nút toggle (nút mũi tên ở sidebar)
         const toggleIcon = $("#sidebar-toggle-btn i"); 
 
         if (state === "mini") {
-            // Trạng thái thu nhỏ
             sidebar.addClass("mini-sidebar").css("width", "88px");
             content.css("padding-left", SIDEBAR_WIDTH_MINI); 
-            
-            // Xoay icon 180 độ (để mũi tên chỉ sang phải >)
             toggleIcon.addClass("rotate-180");
         } else if (state === "full") {
-            // Trạng thái mở rộng
             sidebar.removeClass("mini-sidebar").css("width", "280px");
             content.css("padding-left", SIDEBAR_WIDTH_FULL);
-            
-            // Xoay icon về vị trí cũ (mũi tên chỉ sang trái <)
             toggleIcon.removeClass("rotate-180");
         }
     }
 
-    // Toggle Sidebar (Mobile & Desktop)
     $(document).on("click", "#toggle-sidebar-btn, #sidebar-toggle-btn", function() {
         const sidebar = $("#sidebar-container");
         const overlay = $("#sidebar-overlay");
         
         if ($(window).width() < 1280) {
-            // Mobile: Trượt ra/vào
             sidebar.toggleClass("-translate-x-full");
             overlay.toggleClass("hidden");
         } else {
-            // Desktop: Thu nhỏ/Phóng to
             if (sidebar.hasClass("-translate-x-full")) {
                 sidebar.removeClass("-translate-x-full");
                 setSidebarState("full");
@@ -163,20 +142,17 @@ $(document).ready(function () {
         }
     });
 
-    // Click Overlay để đóng Sidebar
     $("#sidebar-overlay").click(function() {
         $("#sidebar-container").addClass("-translate-x-full");
         $(this).addClass("hidden");
     });
 
-    // Accordion Menu Mobile
     $(document).on('click', '.mobile-accordion-btn', function() {
         $(this).next().slideToggle(250);
         $(this).find('.fa-chevron-down').toggleClass('rotate-180');
         $(this).toggleClass('text-white bg-white/5');
     });
 
-    // Nút Play Trailer
     $(document).on('click', '.btn-play-hero-bg', function(e) {
         e.preventDefault(); e.stopPropagation();
         clearInterval(heroSliderInterval);
@@ -194,11 +170,8 @@ $(document).ready(function () {
     .then(res => res.json())
     .then(data => {
         globalMoviesData = data; 
-        // Chỉ render nếu ở trang chính
         if ($("#hero-section").length > 0) {
-            // Lấy 5 phim đầu cho hero slider
             renderHeroSlider(data.slice(0, 5));
-            // Các hàng carousel 
             renderCarouselRow("#section-trending", "Phổ Biến", data.slice(0, 20));
             renderCarouselRow("#section-now-showing", "Đang Chiếu", data.filter(m => m.status === 'Đang Chiếu'));
             renderCarouselRow("#section-coming-soon", "Sắp Chiếu", data.filter(m => m.status === 'Sắp Chiếu'));
@@ -207,30 +180,26 @@ $(document).ready(function () {
             renderCarouselRow("#section-vietnam", "Phim Việt Nam", filterCountry("Việt Nam"));
             renderCarouselRow("#section-us", "Phim Âu Mỹ", filterCountry("Mỹ"));
             renderCarouselRow("#section-korea", "Phim Hàn Quốc", filterCountry("Hàn Quốc"));
-            renderCarouselRow("#section-uk", "Phim Anh", filterCountry("Anh"));
             renderTopRated(data);
         }
         
-        // Cập nhật genres & countries ở header
         if ($("#header-genres-list").length > 0) {
             populateGenres(data);
             populateCountries(data);
         }
     })
-    // Xử lý lỗi (nếu có)
     .catch(err => {
         console.log("Info: Chưa load được data phim hoặc đang ở trang khác.");
     });
 
-    // ========================================================================================================================================================================
-    // 6. RENDER FUNCTIONS (Giữ nguyên)
-    // ========================================================================================================================================================================
+    // ==========================================
+    // 6. RENDER FUNCTIONS
+    // ==========================================
     const renderHeroSlider = (movies) => {
         if (!movies.length) return;
         const container = $("#hero-section").removeClass("animate-pulse bg-[#1e1e1e]");
         let slidesHtml = '', dotsHtml = '';
 
-        // Hàm lấy ID YouTube từ URL
         movies.forEach((m, index) => {
             const img = m.landscape_poster_url || m.poster_url;
             const activeClass = index === 0 ? 'active opacity-100 z-10' : 'opacity-0 z-0';
@@ -238,7 +207,6 @@ $(document).ready(function () {
             const videoId = getYoutubeId(m.trailer_url);
             const heartClass = window.isFavorite(m.id) ? 'fa-solid text-red-500' : 'fa-regular text-white';
 
-            // Template slide
             slidesHtml += `
                 <div class="hero-slide absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${activeClass}" data-index="${index}">
                     <div class="hero-media absolute w-full h-full overflow-hidden rounded-[2.5rem]"><img src="${img}" class="absolute w-full h-full object-cover object-top transition-opacity duration-500"></div>
@@ -265,7 +233,6 @@ $(document).ready(function () {
         });
         container.html(`<div class="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-2xl group border border-white/5 bg-[#121212]">${slidesHtml}<div class="absolute bottom-8 right-8 z-30 flex space-x-1.5">${dotsHtml}</div></div>`);
         
-        // Slider Logic (hiển thị slide và tự động chuyển)
         let currentIndex = 0;
         const showSlide = (index) => {
             container.find('.hero-slide').removeClass('active opacity-100 z-10').addClass('opacity-0 z-0');
@@ -274,13 +241,12 @@ $(document).ready(function () {
             $(container.find('.hero-dot')[index]).removeClass('bg-white/30 w-1.5').addClass('bg-primary w-6');
             currentIndex = index;
         };
-        
         const startAutoPlay = () => { if(heroSliderInterval) clearInterval(heroSliderInterval); heroSliderInterval = setInterval(() => showSlide((currentIndex + 1) % movies.length), SLIDE_DELAY); };
         container.find('.hero-dot').click(function() { const index = $(this).data('index'); showSlide(index); startAutoPlay(); });
         container.hover(() => clearInterval(heroSliderInterval), startAutoPlay); startAutoPlay();
     };
 
-    const renderCarouselRow = (id, title, movies) => { 
+    const renderCarouselRow = (id, title, movies) => {
         if(!movies.length) return;
         const scrollId = `scroll-${id.replace('#', '')}`;
         let cardsHtml = '';
@@ -325,24 +291,11 @@ $(document).ready(function () {
             </div>`);
     };
 
-    // Hàm render danh sách Bảng xếp hạng phim
     const renderTopRated = (movies) => {
          let html = "";
          movies.sort((a,b) => b.vote_average - a.vote_average).slice(0, 10).forEach((m, i) => {
-             let rankTextStyle = "";
-             let rankHeartColor = "text-gray-700"; 
-             if (i === 0) {
-                 rankTextStyle = "text-6xl font-black italic text-transparent bg-clip-text bg-gradient-to-t from-purple-600 to-pink-400 drop-shadow-[0_4px_10px_rgba(168,85,247,0.6)] pr-2";
-                 rankHeartColor = "text-pink-500/50";
-             } else if (i === 1) {
-                 rankTextStyle = "text-5xl font-black italic text-transparent bg-clip-text bg-gradient-to-t from-blue-600 to-cyan-400 drop-shadow-md pr-1";
-                 rankHeartColor = "text-blue-500/50";
-             } else if (i === 2) {
-                 rankTextStyle = "text-5xl font-black italic text-transparent bg-clip-text bg-gradient-to-t from-yellow-700 to-yellow-300 drop-shadow-md pr-1";
-                 rankHeartColor = "text-yellow-500/50";
-             } else {
-                 rankTextStyle = "text-3xl font-bold text-gray-500 font-[Outfit]";
-             }
+             let rankTextStyle = i === 0 ? "text-6xl font-black italic text-transparent bg-clip-text bg-gradient-to-t from-purple-600 to-pink-400 drop-shadow-[0_4px_10px_rgba(168,85,247,0.6)] pr-2" : (i === 1 ? "text-5xl font-black italic text-transparent bg-clip-text bg-gradient-to-t from-blue-600 to-cyan-400 drop-shadow-md pr-1" : (i === 2 ? "text-5xl font-black italic text-transparent bg-clip-text bg-gradient-to-t from-yellow-700 to-yellow-300 drop-shadow-md pr-1" : "text-3xl font-bold text-gray-500 font-[Outfit]"));
+             let rankHeartColor = i === 0 ? "text-pink-500/50" : (i === 1 ? "text-blue-500/50" : (i === 2 ? "text-yellow-500/50" : "text-gray-700")); 
 
              const heartClass = window.isFavorite(m.id) ? 'fa-solid text-red-500' : 'fa-regular text-gray-400';
              const year = m.release_date ? m.release_date.split('-')[0] : 'N/A';
@@ -351,7 +304,7 @@ $(document).ready(function () {
                 <div class="relative group block mb-3 pl-1">
                     <a href="movie_detail.html?id=${m.id}" class="top-rated-item flex items-center p-3 rounded-2xl cursor-pointer bg-[#1e1e1e]/50 border border-white/5 relative overflow-hidden hover:bg-white/5 transition-colors pr-14">
                         <div class="w-16 flex-shrink-0 flex flex-col justify-center items-center z-10">
-                            <span class="${rankTextStyle} leading-none" style="font-family: 'Outfit', sans-serif;">${i+1}</span>
+                            <span class="${rankTextStyle} leading-none">${i+1}</span>
                             <i class="fa-solid fa-heart text-[10px] mt-1 ${rankHeartColor}"></i>
                         </div>
                         <div class="relative w-12 h-16 flex-shrink-0 z-10 mx-3">
@@ -365,7 +318,6 @@ $(document).ready(function () {
                             </div>
                         </div>
                     </a>
-                    
                     <button onclick="window.toggleFavorite(event, ${m.id})" class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center hover:scale-110 transition z-20 bg-white/5 rounded-full hover:bg-white/10 group/heart">
                         <i class="${heartClass} fa-heart text-sm group-hover/heart:text-red-500 transition-colors"></i>
                     </button>
@@ -374,12 +326,38 @@ $(document).ready(function () {
          $("#top-rated-list").html(html);
     };
 
-    const populateGenres = (movies) => { const allGenres = [...new Set(movies.flatMap(m => m.genres))].sort(); let hHtml = '', sHtml = ''; allGenres.forEach(g => { hHtml += `<a href="#" class="block px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-purple-600 rounded-lg transition-colors truncate">${g}</a>`; sHtml += `<a href="#" class="block px-3 py-2.5 text-[11px] font-medium bg-[#1e1e1e] border border-white/10 rounded-xl text-center text-gray-400 hover:text-white hover:border-purple-500 hover:bg-purple-500/20 transition-all truncate shadow-sm">${g}</a>`; }); $("#header-genres-list").html(hHtml); $("#sidebar-mobile-genres").html(sHtml); };
-    const populateCountries = (movies) => { const allC = []; movies.forEach(m => { if(m.details?.country) allC.push(...m.details.country.split(/[,-]/).map(s => s.trim())); }); const uniqueC = [...new Set(allC)].sort(); let hHtml = '', sHtml = ''; uniqueC.forEach(c => { hHtml += `<a href="#" class="block px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-purple-600 rounded-lg transition-colors truncate">${c}</a>`; sHtml += `<a href="#" class="block px-3 py-2.5 text-[11px] font-medium bg-[#1e1e1e] border border-white/10 rounded-xl text-center text-gray-400 hover:text-white hover:border-purple-500 hover:bg-purple-500/20 transition-all truncate shadow-sm">${c}</a>`; }); $("#header-countries-list").html(hHtml); $("#sidebar-mobile-countries").html(sHtml); };
+    const populateGenres = (movies) => { 
+        const allGenres = [...new Set(movies.flatMap(m => m.genres))].sort(); 
+        const limitedGenres = allGenres.slice(0, 10); // Giới hạn 10 thể loại
+        let hHtml = '', sHtml = ''; 
+        limitedGenres.forEach(g => { 
+            const link = `movie_list.html?genre=${encodeURIComponent(g)}`;
+            hHtml += `<a href="${link}" class="block px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-purple-600 rounded-lg transition-colors truncate">${g}</a>`; 
+            sHtml += `<a href="${link}" class="block px-3 py-2.5 text-[11px] font-medium bg-[#1e1e1e] border border-white/10 rounded-xl text-center text-gray-400 hover:text-white hover:border-purple-500 hover:bg-purple-500/20 transition-all truncate shadow-sm">${g}</a>`; 
+        }); 
+        $("#header-genres-list").html(hHtml); 
+        $("#sidebar-mobile-genres").html(sHtml); 
+    };
+
+    const populateCountries = (movies) => { 
+        const allC = []; 
+        movies.forEach(m => { if(m.details?.country) allC.push(...m.details.country.split(/[,-]/).map(s => s.trim())); }); 
+        const uniqueC = [...new Set(allC)].sort(); 
+        const limitedCountries = uniqueC.slice(0, 10); // Giới hạn 10 quốc gia
+        let hHtml = '', sHtml = ''; 
+        limitedCountries.forEach(c => { 
+            const link = `movie_list.html?country=${encodeURIComponent(c)}`;
+            hHtml += `<a href="${link}" class="block px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-purple-600 rounded-lg transition-colors truncate">${c}</a>`; 
+            sHtml += `<a href="${link}" class="block px-3 py-2.5 text-[11px] font-medium bg-[#1e1e1e] border border-white/10 rounded-xl text-center text-gray-400 hover:text-white hover:border-purple-500 hover:bg-purple-500/20 transition-all truncate shadow-sm">${c}</a>`; 
+        }); 
+        $("#header-countries-list").html(hHtml); 
+        $("#sidebar-mobile-countries").html(sHtml); 
+    };
+
     const getYoutubeId = (url) => { if(!url) return null; const match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/); return (match && match[2].length === 11) ? match[2] : null; };
 });
 
 window.scrollCarousel = (id, direction) => {
     const container = document.getElementById(id);
     if (container) container.scrollBy({ left: direction * (container.clientWidth * 0.95), behavior: 'smooth' });
-};});
+};
