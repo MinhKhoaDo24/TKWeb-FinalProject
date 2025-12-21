@@ -5,27 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Chi tiết diễn viên - AuraFilm</title>
-    <script src="scripts/load_header.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Load nền chính -->
+    <script src="scripts/Tailwind_config.js"></script>
+    <!-- Load fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <!-- Load favicon -->
     <link rel="icon" type="image/png" href="assets/favicon.png"/>
-
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              bgMain: "#141414", // Màu đồng bộ với Sidebar
-              bgCard: "#1e1e1e",
-              primary: "#8b5cf6",
-              secondary: "#d946ef",
-            },
-            fontFamily: { sans: ["Outfit", "sans-serif"] },
-          },
-        },
-      };
-    </script>
+    <!-- Load fonts -->
+    <link rel="stylesheet" href="fonts/fonts.css" />
+    
     <style>
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
@@ -50,10 +39,10 @@
         <div class="flex-1 overflow-y-auto px-4 md:px-8 pb-5 scroll-smooth custom-scrollbar">
             
             <div class="mt-6 mb-5">
-                <a href="actor.html" class="inline-flex items-center gap-2 text-gray-400 hover:text-white transition group text-sm font-medium">
+                <!-- <a href="actor.html" class="inline-flex items-center gap-2 text-gray-400 hover:text-white transition group text-sm font-medium">
                     <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
                     Quay lại danh sách
-                </a>
+                </a> -->
             </div>
 
             <section class="bg-[#1e1e1e] rounded-[2.5rem] p-6 md:p-10 border border-white/5 shadow-2xl overflow-hidden relative">
@@ -85,7 +74,9 @@
     </main>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="scripts/login_register.js"></script> <script src="scripts/loadheaderfooter.js"></script> <script type="module" src="scripts/actor_detail.js"></script>
+    <script src="scripts/load_header_footer.js"></script>
+    <script src="scripts/login_register.js"></script> 
+    <script type="module" src="scripts/actor_detail.js"></script>
 
     <script>
         $(document).ready(function() {

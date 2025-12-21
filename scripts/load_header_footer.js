@@ -237,7 +237,7 @@ $(document).ready(function () {
     });
 
     // ==========================================
-    // 6. RENDER FUNCTIONS
+    // 6. RENDER FUNCTIONS (ĐÃ CẬP NHẬT HERO SLIDER)
     // ==========================================
     const renderHeroSlider = (movies) => {
         if (!movies.length) return;
@@ -256,7 +256,7 @@ $(document).ready(function () {
                     <div class="hero-media absolute w-full h-full overflow-hidden rounded-[2.5rem]"><img src="${img}" class="absolute w-full h-full object-cover object-top transition-opacity duration-500"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-[#121212] via-[#121212]/80 via-40% to-transparent pointer-events-none rounded-[2.5rem]"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent pointer-events-none rounded-[2.5rem]"></div>
-                    <div class="hero-content absolute bottom-12 left-6 md:top-auto md:bottom-16 md:left-12 max-w-xl z-20 pr-4">
+                    <div class="hero-content absolute bottom-16 left-6 md:top-auto md:bottom-20 md:left-12 max-w-xl z-20 pr-4">
                         <div class="flex items-center gap-3 mb-3">
                             <span class="px-2.5 py-0.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-[10px] font-bold uppercase rounded shadow-lg">${m.genres[0]}</span>
                             <div class="flex items-center text-yellow-400 text-xs gap-1 bg-black/40 px-2 py-0.5 rounded border border-white/10 backdrop-blur-sm"><i class="fa-solid fa-star"></i><span class="font-bold text-white">${m.vote_average}</span></div>
@@ -265,9 +265,11 @@ $(document).ready(function () {
                         <h2 class="text-3xl md:text-5xl font-bold mb-3 text-white leading-tight font-[Outfit]">${m.title}</h2>
                         <p class="text-gray-300 line-clamp-2 mb-6 text-sm leading-relaxed max-w-lg">${m.description}</p>
                         <div class="flex items-center gap-3">
-                            <a href="movie_detail.html?id=${m.id}" class="bg-white text-black pl-5 pr-6 py-2.5 rounded-full font-bold hover:scale-105 transition flex items-center gap-2 text-sm"><i class="fa-solid fa-play"></i> Xem Phim</a>
-                            <button class="btn-play-hero-bg bg-white/5 backdrop-blur-sm border border-white/20 text-white px-5 py-2.5 rounded-full font-medium hover:bg-white/10 hover:border-white/40 transition flex items-center gap-2 text-sm group/trailer" data-video-id="${videoId}"><i class="fa-brands fa-youtube text-red-500 text-lg"></i>Trailer</button>
-                            <button onclick="window.toggleFavorite(event, ${m.id})" class="w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition group/fav">
+                            <a href="movie_detail.html?id=${m.id}" class="bg-white text-black pl-5 pr-6 py-2.5 rounded-full font-bold hover:scale-105 transition flex items-center gap-2 text-sm whitespace-nowrap"><i class="fa-solid fa-play"></i> Xem Phim</a>
+<button class="btn-play-hero-bg bg-white/5 backdrop-blur-sm border border-white/20 text-white w-11 h-11 md:w-auto md:px-5 md:py-2.5 rounded-full font-medium hover:bg-white/10 hover:border-white/40 transition flex items-center justify-center gap-2 text-sm group/trailer" data-video-id="${videoId}">
+    <i class="fa-brands fa-youtube text-red-500 text-lg"></i>
+    <span class="hidden md:inline whitespace-nowrap">Trailer</span>
+</button>                            <button onclick="window.toggleFavorite(event, ${m.id})" class="w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition group/fav">
                                 <i class="${heartClass} fa-heart text-lg transition-transform group-hover/fav:scale-110"></i>
                             </button>
                         </div>
@@ -275,7 +277,24 @@ $(document).ready(function () {
                 </div>`;
             dotsHtml += `<button class="hero-dot h-1.5 rounded-full transition-all duration-300 ${activeDotClass}" data-index="${index}"></button>`;
         });
-        container.html(`<div class="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-2xl group border border-white/5 bg-[#121212]">${slidesHtml}<div class="absolute bottom-8 right-8 z-30 flex space-x-1.5">${dotsHtml}</div></div>`);
+
+        // Cập nhật cấu trúc: Thêm nút chuyển slide và di chuyển Dots sang trái
+        container.html(`
+            <div class="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-2xl group border border-white/5 bg-[#121212]">
+                ${slidesHtml}
+        
+                <button id="hero-prev" class="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/20 hover:bg-primary text-white flex items-center justify-center backdrop-blur-md border border-white/10 opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer">
+                 <i class="fa-solid fa-chevron-left text-lg"></i>
+                </button>
+                <button id="hero-next" class="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/20 hover:bg-primary text-white flex items-center justify-center backdrop-blur-md border border-white/10 opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer">
+                <i class="fa-solid fa-chevron-right text-lg"></i>
+                </button>
+
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 md:left-12 md:translate-x-0 z-30 flex space-x-2">
+                ${dotsHtml}
+        </div>
+    </div>
+        `);
         
         let currentIndex = 0;
         const showSlide = (index) => {
@@ -285,9 +304,31 @@ $(document).ready(function () {
             $(container.find('.hero-dot')[index]).removeClass('bg-white/30 w-1.5').addClass('bg-primary w-6');
             currentIndex = index;
         };
-        const startAutoPlay = () => { if(heroSliderInterval) clearInterval(heroSliderInterval); heroSliderInterval = setInterval(() => showSlide((currentIndex + 1) % movies.length), SLIDE_DELAY); };
-        container.find('.hero-dot').click(function() { const index = $(this).data('index'); showSlide(index); startAutoPlay(); });
-        container.hover(() => clearInterval(heroSliderInterval), startAutoPlay); startAutoPlay();
+
+        const startAutoPlay = () => { 
+            if(heroSliderInterval) clearInterval(heroSliderInterval); 
+            heroSliderInterval = setInterval(() => showSlide((currentIndex + 1) % movies.length), SLIDE_DELAY); 
+        };
+
+        // Gắn sự kiện cho các nút chấm
+        container.find('.hero-dot').click(function() { 
+            const index = $(this).data('index'); 
+            showSlide(index); 
+            startAutoPlay(); 
+        });
+
+        // Gắn sự kiện cho nút Prev/Next
+        container.find('#hero-prev').click(function() {
+            showSlide((currentIndex - 1 + movies.length) % movies.length);
+            startAutoPlay();
+        });
+        container.find('#hero-next').click(function() {
+            showSlide((currentIndex + 1) % movies.length);
+            startAutoPlay();
+        });
+
+        container.hover(() => clearInterval(heroSliderInterval), startAutoPlay); 
+        startAutoPlay();
     };
 
     const renderCarouselRow = (id, title, movies) => {
@@ -337,7 +378,7 @@ $(document).ready(function () {
 
     const renderTopRated = (movies) => {
          let html = "";
-         movies.sort((a,b) => b.vote_average - a.vote_average).slice(0, 10).forEach((m, i) => {
+         movies.sort((a,b) => b.vote_average - a.vote_average).slice(0, 12).forEach((m, i) => {
              let rankTextStyle = i === 0 ? "text-5xl font-black italic text-transparent bg-clip-text bg-gradient-to-t from-purple-600 to-pink-400 drop-shadow-[0_4px_10px_rgba(168,85,247,0.6)] pr-2" : (i === 1 ? "text-5xl font-black italic text-transparent bg-clip-text bg-gradient-to-t from-blue-600 to-cyan-400 drop-shadow-md pr-1" : (i === 2 ? "text-5xl font-black italic text-transparent bg-clip-text bg-gradient-to-t from-yellow-700 to-yellow-300 drop-shadow-md pr-1" : "text-3xl font-bold text-gray-500 font-[Outfit]"));
              let rankHeartColor = i === 0 ? "text-pink-500/50" : (i === 1 ? "text-blue-500/50" : (i === 2 ? "text-yellow-500/50" : "text-gray-700")); 
 
