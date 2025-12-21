@@ -49,14 +49,14 @@
 
 <body class="bg-bgMain text-white font-sans h-screen flex overflow-hidden">
     <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-[99] hidden backdrop-blur-sm transition-opacity"></div>
-
+    <!-- sidebar -->
     <aside id="sidebar-container" class="fixed inset-y-0 left-0 z-[100] h-full transform -translate-x-full xl:translate-x-0 xl:relative transition-all duration-300 w-72 flex-shrink-0 bg-[#0f0f0f] border-r border-white/5"></aside>
 
     <main class="flex-1 flex flex-col h-screen relative min-w-0 bg-bgMain transition-all duration-300 overflow-hidden">
         <header id="navbar-container" class="z-40 w-full"></header>
         
         <div class="flex-1 overflow-y-auto px-4 sm:px-6 md:px-10 scroll-smooth custom-scrollbar pb-10">
-
+            <!-- Banner Khám Phá AuraFilm -->
             <section class="reveal relative py-20 sm:py-32 md:py-40 overflow-hidden rounded-[2rem] sm:rounded-[3rem] mt-6 mb-12 border border-white/5 shadow-2xl">
                 <div class="absolute inset-0 -z-20">
                     <img src="https://cdn-media.sforum.vn/storage/app/media/anh-dep-68.jpg" 
@@ -75,6 +75,7 @@
                 </div>
             </section>
 
+            <!-- Sứ mệnh, tầm nhìn, giá trị -->
             <section class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-24">
                 <div class="reveal delay-200 group relative p-8 sm:p-12 rounded-[2rem] sm:rounded-[3rem] glass-card hover:bg-white/[0.06] transition-all flex flex-col items-center text-center overflow-hidden border border-white/10">
                     <h3 class="cinema-title text-2xl sm:text-3xl font-black mb-4 sm:mb-6 bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">Sứ mệnh</h3>
@@ -95,6 +96,7 @@
                 </div>
             </section>
 
+            <!-- Trải nghiệm đẳng cấp -->
             <section class="mb-32">
                 <div class="reveal flex flex-col items-center mb-12 sm:mb-16 text-center">
                     <h2 class="cinema-title text-3xl sm:text-4xl md:text-5xl font-bold mb-4 px-2">Trải Nghiệm Đẳng Cấp</h2>
@@ -132,6 +134,7 @@
                 </div>
             </section>
 
+            <!-- Thống Kê Ấn Tượng -->
             <section class="reveal py-16 sm:py-20 bg-white/[0.02] border-y border-white/5 mb-32 rounded-[2.5rem] sm:rounded-[4rem]">
                 <div class="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 text-center">
                     <div>
@@ -153,49 +156,50 @@
                 </div>
             </section>
 
+            <!-- Đội Ngũ Founder -->
             <section class="pb-32 px-4 sm:px-6">
-    <div class="reveal flex flex-col items-center mb-16">
-        <h2 class="cinema-title text-3xl sm:text-4xl font-bold mb-4">Đội Ngũ Founder</h2>
-        <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
-    </div>
+                <div class="reveal flex flex-col items-center mb-16">
+                    <h2 class="cinema-title text-3xl sm:text-4xl font-bold mb-4">Đội Ngũ Founder</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+                </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 max-w-7xl mx-auto">
         
-        <div class="reveal delay-200 group text-center">
-            <div class="relative aspect-[3/2] w-full max-w-[280px] mx-auto rounded-full overflow-hidden mb-6 border-2 border-white/10 group-hover:border-primary transition-all duration-500 shadow-2xl bg-[#1a1a1a]">
-                <img src="assets/Founder/KhanhVu.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700">
+            <div class="reveal delay-200 group text-center">
+                <div class="relative aspect-[3/2] w-full max-w-[280px] mx-auto rounded-full overflow-hidden mb-6 border-2 border-white/10 group-hover:border-primary transition-all duration-500 shadow-2xl bg-[#1a1a1a]">
+                    <img src="assets/Founder/KhanhVu.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700">
+                </div>
+                <h4 class="cinema-title text-base sm:text-lg font-black group-hover:text-primary transition-colors tracking-tight uppercase">VŨ LÊ HIỂU KHANH</h4>
+                <p class="text-[10px] text-gray-500 uppercase tracking-[0.2em] mt-1 font-bold">CO FOUNDER</p>
             </div>
-            <h4 class="cinema-title text-base sm:text-lg font-black group-hover:text-primary transition-colors tracking-tight uppercase">VŨ LÊ HIỂU KHANH</h4>
-            <p class="text-[10px] text-gray-500 uppercase tracking-[0.2em] mt-1 font-bold">CO FOUNDER</p>
-        </div>
 
-        <div class="reveal delay-400 group text-center">
-            <div class="relative aspect-[3/2] w-full max-w-[280px] mx-auto rounded-full overflow-hidden mb-6 border-2 border-white/10 group-hover:border-primary transition-all duration-500 shadow-2xl bg-[#1a1a1a]">
-                <img src="assets/Founder/MinhKhoa.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700">
+            <div class="reveal delay-400 group text-center">
+                <div class="relative aspect-[3/2] w-full max-w-[280px] mx-auto rounded-full overflow-hidden mb-6 border-2 border-white/10 group-hover:border-primary transition-all duration-500 shadow-2xl bg-[#1a1a1a]">
+                    <img src="assets/Founder/MinhKhoa.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700">
+                </div>
+                <h4 class="cinema-title text-base sm:text-lg font-black group-hover:text-primary transition-colors tracking-tight uppercase">ĐỔ MINH KHOA</h4>
+                <p class="text-[10px] text-gray-500 uppercase tracking-[0.2em] mt-1 font-bold">CO FOUNDER</p>
             </div>
-            <h4 class="cinema-title text-base sm:text-lg font-black group-hover:text-primary transition-colors tracking-tight uppercase">ĐỔ MINH KHOA</h4>
-            <p class="text-[10px] text-gray-500 uppercase tracking-[0.2em] mt-1 font-bold">CO FOUNDER</p>
-        </div>
 
-        <div class="reveal delay-600 group text-center">
-            <div class="relative aspect-[3/2] w-full max-w-[280px] mx-auto rounded-full overflow-hidden mb-6 border-2 border-white/10 group-hover:border-primary transition-all duration-500 shadow-2xl bg-[#1a1a1a]">
-                <img src="assets/Founder/TrangAnh.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700">
+            <div class="reveal delay-600 group text-center">
+                <div class="relative aspect-[3/2] w-full max-w-[280px] mx-auto rounded-full overflow-hidden mb-6 border-2 border-white/10 group-hover:border-primary transition-all duration-500 shadow-2xl bg-[#1a1a1a]">
+                    <img src="assets/Founder/TrangAnh.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700">
+                </div>
+                <h4 class="cinema-title text-base sm:text-lg font-black group-hover:text-primary transition-colors tracking-tight uppercase">ĐOÀN THỊ TRANG ANH</h4>
+                <p class="text-[10px] text-gray-500 uppercase tracking-[0.2em] mt-1 font-bold">CO FOUNDER</p>
             </div>
-            <h4 class="cinema-title text-base sm:text-lg font-black group-hover:text-primary transition-colors tracking-tight uppercase">ĐOÀN THỊ TRANG ANH</h4>
-            <p class="text-[10px] text-gray-500 uppercase tracking-[0.2em] mt-1 font-bold">CO FOUNDER</p>
-        </div>
 
-        <div class="reveal delay-200 group text-center">
-            <div class="relative aspect-[3/2] w-full max-w-[280px] mx-auto rounded-full overflow-hidden mb-6 border-2 border-white/10 group-hover:border-primary transition-all duration-500 shadow-2xl bg-[#1a1a1a]">
-                <img src="assets/Founder/HoangPhuc.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700">
+            <div class="reveal delay-200 group text-center">
+                <div class="relative aspect-[3/2] w-full max-w-[280px] mx-auto rounded-full overflow-hidden mb-6 border-2 border-white/10 group-hover:border-primary transition-all duration-500 shadow-2xl bg-[#1a1a1a]">
+                    <img src="assets/Founder/HoangPhuc.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700">
+                </div>
+                <h4 class="cinema-title text-base sm:text-lg font-black group-hover:text-primary transition-colors tracking-tight uppercase">NGUYỄN HOÀNG PHÚC</h4>
+                <p class="text-[10px] text-gray-500 uppercase tracking-[0.2em] mt-1 font-bold">CO FOUNDER</p>
             </div>
-            <h4 class="cinema-title text-base sm:text-lg font-black group-hover:text-primary transition-colors tracking-tight uppercase">NGUYỄN HOÀNG PHÚC</h4>
-            <p class="text-[10px] text-gray-500 uppercase tracking-[0.2em] mt-1 font-bold">CO FOUNDER</p>
-        </div>
+            </div>
+            </section>
 
-        </div>
-    </section>
-
+            <!-- Call to Action -->
             <section class="reveal relative mb-32">
                 <div class="max-w-6xl mx-auto px-2 sm:px-4">
                     <div class="relative rounded-[2.5rem] sm:rounded-[4rem] p-10 sm:p-24 overflow-hidden border border-white/10 bg-gradient-to-br from-purple-600/20 to-blue-600/20 text-center">
@@ -215,7 +219,8 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="scripts/load_header_footer.js"></script>
     <script src="scripts/login_register.js"></script>
-
+    
+    <!-- Hiệu ứng hiển thị khi lướt chuột -->
     <script>
         function reveal() {
             const reveals = document.querySelectorAll(".reveal");
