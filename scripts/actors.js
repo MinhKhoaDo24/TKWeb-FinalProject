@@ -46,6 +46,7 @@ const paginator = createPaginator({
 
 (async function main() {
   try {
+    // tải danh sách diễn viên từ actors.json
     allActors = await fetchJSON("data/actors.json");
     filteredActors = allActors;
 
@@ -55,6 +56,7 @@ const paginator = createPaginator({
 
     input.addEventListener("input", () => {
       const q = normalizeText(input.value);
+      // lọc theo tên diễn viên, tìm kiếm match theo kí tự-chuỗi kí tự
       filteredActors = allActors.filter((a) =>
         normalizeText(a.name).includes(q)
       );
