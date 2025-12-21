@@ -4,26 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lịch Sử Xem Phim</title>
-    <link rel="icon" type="image/png" href="assets/favicon.png" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load nền chính -->
+    <script src="scripts/Tailwind_config.js"></script>
+    <!-- Load fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <!-- Load favicon -->
+    <link rel="icon" type="image/png" href="assets/favicon.png"/>
+    <!-- Load fonts -->
+    <link rel="stylesheet" href="fonts/fonts.css" />    
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        bgMain: "#121212",
-                        bgCard: "#1e1e1e",
-                        bgInput: "#2a2a2a",
-                        primary: "#8b5cf6",
-                    },
-                    fontFamily: { sans: ["Outfit", "sans-serif"] },
-                },
-            },
-        };
-    </script>
-
     <style>
         /* 1. Reset & Global Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
@@ -124,12 +114,8 @@
 
 <body class="bg-bgMain text-white">
 
-    <div id="sidebar-overlay" class="fixed inset-0 bg-black/80 hidden backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
-
-    <div id="sidebar-container" 
-         class="fixed inset-y-0 left-0 w-72 h-full transform -translate-x-full transition-transform duration-300 
-                md:relative md:translate-x-0 shadow-2xl md:shadow-none">
-    </div>
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-[99] hidden backdrop-blur-sm transition-opacity"></div>
+    <div id="sidebar-container" class="fixed inset-y-0 left-0 z-[100] h-full transform -translate-x-full xl:translate-x-0 xl:relative transition-all duration-300 w-72"></div>
 
     <main>
         <div id="navbar-container"></div>
@@ -195,12 +181,12 @@
     </main>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <!-- load sidebar + header + footer -->
-    <script src="scripts/loadheaderfooter.js"></script>
-    <!-- kiểm tra trạng thái đăng nhập người dùng -->
+
+    <script src="scripts/load_header_footer.js"></script>
     <script src="scripts/login_register.js"></script>
-    <!-- logic xử lý lịch sử xem: render, search, xóa -->
+    <script src="scripts/auth.js"></script>
     <script src="scripts/history.js"></script>
+    
 
     <script>
         // logic bổ sung để đóng/mở sidebar trên Mobile (đảm bảo đồng bộ với nút menu trên Navbar)

@@ -1,5 +1,6 @@
 $(document).ready(function() {
     
+    // --- 1. FETCH DỮ LIỆU ---
     fetch('./data/movies.json')
     .then(res => res.json())
     .then(allMovies => {
@@ -7,15 +8,38 @@ $(document).ready(function() {
     })
     .catch(err => console.error("Lỗi tải phim:", err));
 
+    // --- 2. HÀM RENDER CHÍNH ---
     function renderFavorites(allMovies) {
-        const favIds = JSON.parse(localStorage.getItem('favorites')) || [];
         const container = $("#favorites-grid");
+        
+        // KIỂM TRA ĐĂNG NHẬP
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
+        if (!isLoggedIn) {
+            // Hiển thị khung "Quyền truy cập bị hạn chế" như ảnh image_b325cd.png
+            container.html(`
+                <div class="col-span-full flex flex-col items-center justify-center py-20 text-center">
+                    <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-6 border border-white/10">
+                        <i class="fa-solid fa-lock text-purple-500 text-3xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-white mb-2 uppercase tracking-wide">Quyền truy cập bị hạn chế</h2>
+                    <p class="text-gray-400 mb-8 max-w-sm">Vui lòng đăng nhập để xem lại dữ liệu cá nhân của bạn.</p>
+                    <a href="login.html" class="px-10 py-3 bg-gradient-brand rounded-full hover:scale-105 transition-transform text-white font-bold uppercase text-sm shadow-lg shadow-purple-500/20">
+                        Đăng nhập ngay
+                    </a>
+                </div>
+            `);
+            return;
+        }
+
+        const favIds = JSON.parse(localStorage.getItem('favorites')) || [];
+        
+        // Nếu đã đăng nhập nhưng danh sách trống
         if (favIds.length === 0) {
             container.html(`
                 <div class="col-span-full flex flex-col items-center justify-center py-20 text-gray-500">
                     <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-4">
-                        <i class="fa-solid fa-heart-crack text-red-500 font text-2xl"></i>
+                        <i class="fa-solid fa-heart-crack text-red-500 text-2xl"></i>
                     </div>
                     <p class="text-lg">Bạn chưa có phim yêu thích nào.</p>
                     <a href="index.html" class="mt-4 px-6 py-2 bg-purple-600 rounded-full hover:bg-purple-700 transition text-white text-sm font-bold">Khám phá ngay</a>
@@ -57,11 +81,17 @@ $(document).ready(function() {
         container.html(html);
     }
 
-    // Hàm xóa trực tiếp trên trang Favorites và reload lại list
+    // --- 3. HÀM XÓA PHIM ---
     window.removeFavFromPage = (e, id) => {
         e.preventDefault();
         e.stopPropagation();
         
+        // Kiểm tra đăng nhập trước khi cho phép xóa
+        if (localStorage.getItem("isLoggedIn") !== "true") {
+            alert("Vui lòng đăng nhập để thực hiện thao tác này!");
+            return;
+        }
+
         if(confirm("Bạn có chắc muốn bỏ phim này khỏi danh sách yêu thích?")) {
             let favs = JSON.parse(localStorage.getItem('favorites')) || [];
             favs = favs.filter(favId => favId !== id);

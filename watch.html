@@ -5,34 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trang Xem Phim</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Load nền chính -->
+    <script src="scripts/Tailwind_config.js"></script>
+    <!-- Load fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <!-- Load favicon -->
     <link rel="icon" type="image/png" href="assets/favicon.png"/>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              bgMain: "#121212",
-              bgCard: "#1e1e1e",
-              bgInput: "#2a2a2a",
-              primary: "#8b5cf6",
-              secondary: "#d946ef",
-            },
-            fontFamily: {
-              sans: ["Outfit", "sans-serif"],
-              heading: ["Oswald", "sans-serif"],
-            },
-          },
-        },
-      };
-    </script>
+    <!-- Load fonts -->
+    <link rel="stylesheet" href="fonts/fonts.css" />    
+    
 
     <style>
       ::-webkit-scrollbar { width: 6px; }
@@ -138,7 +119,7 @@
     </main>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="scripts/loadheaderfooter.js"></script>
+    <script src="scripts/load_header_footer.js"></script>
     <script src="scripts/login_register.js"></script>
     <script src="scripts/Watch.js"></script>
   </body>
