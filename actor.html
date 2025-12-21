@@ -51,6 +51,7 @@
         
         <div class="mt-6 mb-10">
           <div class="flex items-center justify-between gap-4 flex-wrap">
+            
             <div>
               <h1 class="text-3xl md:text-4xl font-extrabold flex items-center gap-3">
                 <span class="w-1.5 h-8 bg-gradient-brand rounded-full"></span> Diễn Viên
@@ -60,6 +61,7 @@
               </p>
             </div>
 
+            <!-- Thanh tìm kiếm diễn viên -->
             <div class="w-full md:w-[420px]">
               <div class="flex items-center gap-3 bg-bgInput rounded-2xl px-4 py-3 border border-white/5 focus-within:ring-1 focus-within:ring-primary/50 transition-all shadow-lg">
                 <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
@@ -74,23 +76,24 @@
           </div>
         </div>
 
+        <!-- Danh sách diễn viên -->
         <section class="bg-[#141414] rounded-[30px] p-5 md:p-8 border border-white/5 shadow-2xl mb-10">
           <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
             <h2 class="text-[13px] font-bold uppercase tracking-[0.2em] text-gray-400 flex items-center gap-2">
               <i class="fa-solid fa-users text-primary"></i> Tất cả diễn viên
             </h2>
             <div class="text-gray-400 text-sm bg-white/5 px-3 py-1 rounded-full border border-white/5">
+              <!-- Số lượng diễn viên -->
               <span id="actor-count" class="text-white font-bold">0</span> người
             </div>
           </div>
 
-          <div
-            id="actors-grid"
-            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6"
-          >
+          <div id="actors-grid"
+            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
             <div class="col-span-full text-center py-20 text-gray-500">Đang tải dữ liệu...</div>
           </div>
-
+          
+          <!-- Phân trang -->
           <div class="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-6 border-t border-white/5">
             <div class="text-sm text-gray-400">
               Hiển thị <span id="actor-range" class="text-white font-medium">0–0</span> / <span id="total-actors" class="text-white font-medium">0</span>

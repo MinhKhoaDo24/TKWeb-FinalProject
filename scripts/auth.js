@@ -1,8 +1,4 @@
-/**
- * scripts/auth.js
- * File quản lý trạng thái đăng nhập vạn năng
- */
-
+// HÀN KIỂM TRA ĐĂNG KÝ, ĐĂNG NHẬP VẠN NĂNG
 // 1. Hàm kiểm tra trạng thái đăng nhập (Trả về true/false)
 window.checkIsLoggedIn = function() {
     return localStorage.getItem("isLoggedIn") === "true";
