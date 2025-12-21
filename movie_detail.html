@@ -20,10 +20,10 @@
         theme: {
           extend: {
             colors: {
-              bgMain: "#121212",
-              bgCard: "#1e1e1e",
+              bgMain: "#121212", // Màu nền đen chủ đạo
+              bgCard: "#1e1e1e", // Màu nền các thẻ/khối
               bgInput: "#2a2a2a",
-              primary: "#8b5cf6",
+              primary: "#8b5cf6", // Màu tím thương hiệu
             },
             fontFamily: { sans: ["Oswald", "sans-serif"] },
           },
@@ -33,14 +33,17 @@
     <script src="scripts/movie_detail.js"></script>
 
     <style>
+      /* Làm đẹp thanh cuộn (nhỏ gọn, tối màu) */
       ::-webkit-scrollbar { width: 6px; }
       ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; border: 2px solid #121212; }
       ::-webkit-scrollbar-track { background: transparent; }
+      /* Hiệu ứng kính mờ (Glassmorphism) */
       .glass-effect { background: rgba(18, 18, 18, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+      /* Ẩn thanh cuộn nhưng vẫn cuộn được */
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       
-      /* Sidebar mini fix */
+      /* Xử lý hiển thị Sidebar khi thu nhỏ */
       .mini-sidebar #sidebar-content { width: 88px !important; }
       .mini-sidebar .sidebar-text, .mini-sidebar h3 { display: none; opacity: 0; }
       .mini-sidebar .nav-item { justify-content: center; padding: 0; width: 48px; margin: 0 auto; border-radius: 14px; }
@@ -55,7 +58,8 @@
     <div
       id="sidebar-container"
       class="fixed inset-y-0 left-0 z-50 h-full transform -translate-x-full md:translate-x-0 md:relative transition-all duration-300 w-72"
-    ></div>
+    >
+    </div>
     <main class="flex-1 flex flex-col h-screen relative w-full bg-bgMain transition-all duration-300">
       <div id="navbar-container"></div>
 
@@ -78,8 +82,8 @@
             </div>
 
             <div class="movie-info flex-1 pt-2 text-center md:text-left">
-              <h1 id="movie-title" class="title text-3xl md:text-5xl font-bold mb-4 drop-shadow-lg">—</h1>
-
+              <h1 id="movie-title" class=" title text-3xl md:text-5xl font-bold mb-4 drop-shadow-lg">—</h1>
+  
               <div class="meta flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm text-gray-300 mb-6">
                 <span id="age-badge" class="badge px-2 py-1 bg-white/10 border border-white/20 rounded text-xs font-bold">—</span>
                 <span class="flex items-center gap-1"><i class="far fa-clock text-purple-400"></i> <span id="duration">—</span></span>

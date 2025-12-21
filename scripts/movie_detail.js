@@ -1,18 +1,22 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // --- 1. KHỞI TẠO BIẾN & CẤU HÌNH ---
+    // Lấy ID phim từ thanh địa chỉ URL
     const params = new URLSearchParams(window.location.search);
     const idParam = params.get('id') ? Number(params.get('id')) : null;
-    
+    // Đường dẫn tới các file dữ liệu giả lập
     const moviesPath = 'data/movies.json';
     const actorsPath = 'data/actors.json';
+    // Ảnh mặc định dùng khi phim bị lỗi ảnh hoặc thiếu ảnh
     const DEFAULT_PLACEHOLDER = 'https://placehold.co/1920x1080/1e1e1e/ffffff?text=No+Image';
-    const HISTORY_KEY = 'watch_history_v1';
-    const FAVORITE_KEY = 'my_favorite_movies';
+    // Key để lưu vào LocalStorage (Bộ nhớ trình duyệt)
+    const HISTORY_KEY = 'watch_history_v1'; // Lịch sử xem
+    const FAVORITE_KEY = 'my_favorite_movies'; // Danh sách yêu thích
 
-    // Helper: Lấy element theo ID nhanh
+    // Hàm viết tắt để lấy Element nhanh
     const $ = (id) => document.getElementById(id);
 
     // --- 2. CÁC HÀM HỖ TRỢ (HELPERS) ---
+    /* Chuyển đổi ngày giờ ISO (2023-12-01) sang định dạng Việt Nam (01/12/2023)*/
     function formatDate(iso) {
         try {
             const d = new Date(iso);
@@ -24,7 +28,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     function isValidUrl(url) {
         return url && typeof url === 'string' && url.trim().length > 0 && !url.includes('placehold.co');
     }
-
+/**
+     * Lưu phim vừa xem vào Lịch sử (LocalStorage)
+     */
     function addToWatchHistory(movie) {
         try {
             const raw = localStorage.getItem(HISTORY_KEY);
